@@ -44,7 +44,7 @@
    window.addEventListener('resize', function () { if (window.innerWidth > 960) { setMenu(false); } });
 
    var links = $$('.nav a');
-   var byId = {}; links.forEach(function (a) { byId[a.getAttribute('href').slice(1)] = a; });
+   var byId = {}; links.forEach(function (a) { var id = a.getAttribute('data-section') || a.getAttribute('href').slice(1); byId[id] = a; });
    if ('IntersectionObserver' in window) {
       var spy = new IntersectionObserver(function (entries) {
          entries.forEach(function (en) {
