@@ -7,6 +7,9 @@
 The main page for my coursework in **Web GIS** and **Applied Machine Learning**, MS Remote Sensing and GIS,
 Institute of Geographical Information Systems (IGIS), NUST, Islamabad.
 
+Background: BS Computer Science, FAST (2006–2010); Outreach Merit Scholarship holder, MoIT; 16 years of experience
+in software development, GIS development, project management, data centre operations and AI and LLMs.
+
 **Site:** https://sohailzulfiqarrao.github.io/ · **GitHub:** [@sohailzulfiqarrao](https://github.com/sohailzulfiqarrao)
 
 ## What it links to
