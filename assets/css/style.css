@@ -373,6 +373,10 @@ html:not(.js) #hud-body { display: none; }
    .brand-text small { display: none; }
    .viz-stage { aspect-ratio: 1 / 1.4; }        /* room for the graph above the log panel */
 }
+@media (max-width: 400px) {
+   .tools a.icon-btn { display: none; }          /* GitHub stays in About, the footer and the quick jump */
+   .tools { gap: 6px; }
+}
 @media (max-width: 460px) {
    .steps { grid-template-columns: 1fr; }
    .viz-stage { aspect-ratio: 1 / 1.5; }
