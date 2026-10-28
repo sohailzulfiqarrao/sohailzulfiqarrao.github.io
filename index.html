@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <title>Sohail Zulfiqar · Web GIS × Machine Learning</title>
+   <meta name="description" content="Web GIS and machine learning coursework by Sohail Zulfiqar, MS Remote Sensing and GIS at NUST IGIS: Leaflet maps, Django and PostGIS, regression and clustering notebooks.">
+   <meta name="color-scheme" content="dark light">
+   <meta name="theme-color" content="#050912">
+   <meta property="og:type" content="website">
+   <meta property="og:title" content="Sohail Zulfiqar · Web GIS × Machine Learning">
+   <meta property="og:description" content="Interactive maps, spatial databases and APIs, plus regression and clustering notebooks. Coursework built end to end and published openly.">
+   <meta property="og:image" content="https://sohailzulfiqarrao.github.io/assets/img/og-card.png">
+   <meta name="twitter:card" content="summary_large_image">
+   <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg">
+   <link rel="stylesheet" href="assets/css/style.css">
+   <script>
+      /* set the theme before the first paint, and tell the CSS that scripts are running */
+      (function () {
+         var root = document.documentElement;
+         root.classList.add('js');
+         try {
+            var saved = localStorage.getItem('theme');
+            if (saved === 'light' || saved === 'dark') { root.dataset.theme = saved; }
+            else if (window.matchMedia && matchMedia('(prefers-color-scheme: light)').matches) { root.dataset.theme = 'light'; }
+         } catch (e) { /* storage blocked: keep the default */ }
+      })();
+   </script>
+</head>
+<body id="top">
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+   <defs>
+      <linearGradient id="mark-g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#22d3ee"/><stop offset="1" stop-color="#8b5cf6"/></linearGradient>
+      <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M7 17L17 7M8 7h9v9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-github" viewBox="0 0 24 24"><path fill="currentColor" d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.1.79-.25.79-.56v-2c-3.2.7-3.87-1.37-3.87-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.83 1.19 3.09 0 4.42-2.69 5.39-5.25 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.51 11.51 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z"/></symbol>
+      <symbol id="i-search" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></g></symbol>
+      <symbol id="i-sun" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></g></symbol>
+      <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+      <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+      <symbol id="i-globe" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></g></symbol>
+      <symbol id="i-db" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></g></symbol>
+      <symbol id="i-server" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="4" width="18" height="7" rx="2"/><rect x="3" y="13" width="18" height="7" rx="2"/><path d="M7 7.5h.01M7 16.5h.01"/></g></symbol>
+      <symbol id="i-map" viewBox="0 0 24 24"><path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2-6-2zM9 4v14M15 6v14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"/></symbol>
+      <symbol id="i-cpu" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="6" y="6" width="12" height="12" rx="2"/><rect x="10" y="10" width="4" height="4"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/></g></symbol>
+      <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9zM19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+      <symbol id="i-cmd" viewBox="0 0 24 24"><path d="M9 6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+   </defs>
+</svg>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header" id="site-header">
+   <div class="wrap bar">
+      <a class="brand" href="#top" aria-label="Sohail Zulfiqar, back to the top">
+         <svg class="mark" viewBox="0 0 64 64" aria-hidden="true">
+            <path d="M32 8l20 11.5v23L32 54 12 42.5v-23z" fill="none" stroke="url(#mark-g)" stroke-width="4" stroke-linejoin="round"/>
+            <path d="M32 21c-5 0-8.5 3.7-8.5 8.2 0 6 8.5 13 8.5 13s8.5-7 8.5-13C40.5 24.7 37 21 32 21z" fill="url(#mark-g)"/>
+            <circle cx="32" cy="29" r="3" fill="var(--bg)"/>
+         </svg>
+         <span class="brand-text"><strong>Sohail Zulfiqar</strong><small>Web GIS <i>×</i> Machine Learning</small></span>
+      </a>
+
+      <nav id="nav" class="nav" aria-label="Sections">
+         <a href="#pipeline">Pipeline</a>
+         <a href="#webgis">Web GIS</a>
+         <a href="#ml">Machine learning</a>
+         <a href="#stack">Stack</a>
+         <a href="#about">About</a>
+      </nav>
+
+      <div class="tools">
+         <button class="icon-btn kbd-btn" id="open-palette" type="button" aria-label="Open quick jump (Ctrl K)">
+            <svg aria-hidden="true"><use href="#i-search"/></svg><span class="kbd">Ctrl K</span>
+         </button>
+         <button class="icon-btn" id="theme-toggle" type="button" aria-label="Switch colour theme">
+            <svg class="sun" aria-hidden="true"><use href="#i-sun"/></svg>
+            <svg class="moon" aria-hidden="true"><use href="#i-moon"/></svg>
+         </button>
+         <a class="icon-btn" href="https://github.com/sohailzulfiqarrao" target="_blank" rel="noopener" aria-label="GitHub profile">
+            <svg aria-hidden="true"><use href="#i-github"/></svg>
+         </a>
+         <button class="icon-btn menu-btn" id="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav">
+            <svg aria-hidden="true"><use href="#i-menu"/></svg>
+         </button>
+      </div>
+   </div>
+</header>
+
+<main id="main">
+
+<!-- ============ HERO ============ -->
+<section class="hero" aria-labelledby="hero-title">
+   <div class="hero-bg" aria-hidden="true"></div>
+   <div class="wrap hero-grid">
+      <div class="hero-copy">
+         <p class="chip reveal"><i class="dot live"></i> MS Remote Sensing &amp; GIS · NUST IGIS · Fall 2026</p>
+         <h1 id="hero-title" class="reveal">Web GIS meets <span class="grad">machine&nbsp;learning</span>.</h1>
+         <p class="lead reveal">
+            Interactive maps, spatial databases and APIs on one side. Regression and clustering notebooks on the other.
+            Coursework built end to end, with a live page and a written report for every piece.
+         </p>
+         <div class="cta reveal">
+            <a class="btn btn-primary" href="https://sohailzulfiqarrao.github.io/webgis-ms25igis-578135/" target="_blank" rel="noopener">
+               Explore the Web GIS labs <svg aria-hidden="true"><use href="#i-arrow"/></svg>
+            </a>
+            <a class="btn btn-ghost" href="https://sohailzulfiqarrao.github.io/aml-ms25igis-578135/" target="_blank" rel="noopener">
+               See the ML assignments <svg aria-hidden="true"><use href="#i-arrow"/></svg>
+            </a>
+         </div>
+         <ul class="meta-row reveal" aria-label="Main tools">
+            <li>Leaflet</li><li>Django</li><li>PostGIS</li><li>Python</li><li>scikit-learn</li>
+         </ul>
+      </div>
+
+      <div class="viz reveal" aria-label="Pakistan's 160 districts drawn as a network graph">
+         <div class="viz-bar">
+            <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span class="viz-title">pakistan.districts &rarr; graph</span>
+            <span class="viz-tag">160 nodes · k = 3</span>
+         </div>
+         <div class="viz-stage">
+            <canvas id="network" aria-hidden="true"></canvas>
+            <div class="viz-fallback" aria-hidden="true">160 districts · 7 provinces</div>
+            <div class="hud" aria-label="Recent results">
+               <div class="hud-head"><span>results.log</span><span class="rec"><i class="dot live"></i> verified</span></div>
+               <pre class="hud-body" id="hud-body" aria-live="off"></pre>
+               <noscript><pre class="hud-body">[webgis] 160 districts saved to PostGIS
+[webgis] /api/where/ → Islamabad · pop 2,363,863
+[ml]     OLS, 87 rows · test R² 0.785 · RMSE 1.78 mm
+[ml]     K-means k=10 · ARI 0.62 on 25,311 unseen offers</pre></noscript>
+            </div>
+         </div>
+      </div>
+   </div>
+</section>
+
+<!-- ============ NUMBERS ============ -->
+<section class="stats" aria-label="At a glance">
+   <div class="wrap stats-grid">
+      <div class="stat reveal"><strong data-count="4">4</strong><span>Web GIS labs shipped</span></div>
+      <div class="stat reveal"><strong data-count="160">160</strong><span>districts in PostGIS</span></div>
+      <div class="stat reveal"><strong data-count="2">2</strong><span>machine learning assignments</span></div>
+      <div class="stat reveal"><strong data-count="35311">35,311</strong><span>product offers clustered</span></div>
+   </div>
+</section>
+
+<!-- ============ PIPELINE ============ -->
+<section class="section" id="pipeline" aria-labelledby="pipeline-title">
+   <div class="wrap">
+      <header class="section-head reveal">
+         <p class="kicker">// how it fits together</p>
+         <h2 id="pipeline-title">One pipeline, two disciplines</h2>
+         <p class="lead">Every project here sits on the same path, from raw spatial data to something a person can open in a browser.</p>
+      </header>
+
+      <ol class="steps">
+         <li class="step reveal">
+            <span class="step-icon"><svg aria-hidden="true"><use href="#i-globe"/></svg></span>
+            <h3>Collect</h3>
+            <p>Shapefiles and open data cleaned in QGIS and GDAL, exported as GeoJSON.</p>
+            <p class="step-tags">QGIS · GDAL · GeoJSON</p>
+         </li>
+         <li class="step reveal">
+            <span class="step-icon"><svg aria-hidden="true"><use href="#i-db"/></svg></span>
+            <h3>Store</h3>
+            <p>A spatial database with geometry columns and GiST indexes.</p>
+            <p class="step-tags">PostgreSQL · PostGIS</p>
+         </li>
+         <li class="step reveal">
+            <span class="step-icon"><svg aria-hidden="true"><use href="#i-server"/></svg></span>
+            <h3>Serve</h3>
+            <p>Django and GeoDjango publish the data as a GeoJSON API and an admin panel.</p>
+            <p class="step-tags">Django · GeoDjango</p>
+         </li>
+         <li class="step reveal">
+            <span class="step-icon"><svg aria-hidden="true"><use href="#i-map"/></svg></span>
+            <h3>Map</h3>
+            <p>Leaflet draws it: shaded districts, proportional symbols, popups and layers.</p>
+            <p class="step-tags">Leaflet · OpenStreetMap</p>
+         </li>
+         <li class="step reveal">
+            <span class="step-icon"><svg aria-hidden="true"><use href="#i-cpu"/></svg></span>
+            <h3>Learn</h3>
+            <p>Regression and clustering in notebooks, validated on data the model never saw.</p>
+            <p class="step-tags">Python · scikit-learn · statsmodels</p>
+         </li>
+         <li class="step step-next reveal">
+            <span class="step-icon"><svg aria-hidden="true"><use href="#i-spark"/></svg></span>
+            <h3>Next</h3>
+            <p>Model predictions as live layers on the map.</p>
+            <p class="step-tags">on the roadmap</p>
+         </li>
+      </ol>
+   </div>
+</section>
+
+<!-- ============ WEB GIS ============ -->
+<section class="section" id="webgis" aria-labelledby="webgis-title">
+   <div class="wrap">
+      <header class="section-head reveal">
+         <p class="kicker">// course 01 · Web GIS · Dr. Shahid Nawaz Khan</p>
+         <h2 id="webgis-title">Web GIS labs</h2>
+         <p class="lead">From a first Leaflet map to a Django app on a spatial database. Each lab has a live map and a written report.</p>
+      </header>
+
+      <div class="grid grid-2">
+         <article class="card reveal" data-spot>
+            <a class="media" href="https://sohailzulfiqarrao.github.io/webgis-ms25igis-578135/lab-1-First-Web-Map/" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true">
+               <img src="assets/img/lab-1.jpg" width="1100" height="700" loading="lazy" alt="">
+            </a>
+            <div class="body">
+               <p class="meta"><span class="badge">Lab 01</span><span>2 hours</span></p>
+               <h3>First Web Map</h3>
+               <p>A Leaflet map of Islamabad with markers, popups and circles around the NUST campus, IGIS and the Faisal Mosque, published with GitHub Pages.</p>
+               <ul class="tags"><li>HTML</li><li>CSS</li><li>Leaflet</li><li>Git</li></ul>
+               <div class="actions">
+                  <a class="link" href="https://sohailzulfiqarrao.github.io/webgis-ms25igis-578135/lab-1-First-Web-Map/" target="_blank" rel="noopener">Open map <svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
+                  <a class="link" href="https://github.com/sohailzulfiqarrao/webgis-ms25igis-578135/blob/main/lab-1-First-Web-Map/reports/lab01-report.md" target="_blank" rel="noopener">Report</a>
+               </div>
+            </div>
+         </article>
+
+         <article class="card reveal" data-spot>
+            <a class="media" href="https://sohailzulfiqarrao.github.io/webgis-ms25igis-578135/lab-2-district-explorer/" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true">
+               <img src="assets/img/lab-2.jpg" width="1100" height="700" loading="lazy" alt="">
+            </a>
+            <div class="body">
+               <p class="meta"><span class="badge">Lab 02</span><span>3 hours</span></p>
+               <h3>District Explorer</h3>
+               <p>Pakistan's 160 districts from a shapefile, converted to GeoJSON and shaded by 2023 census population, with popups, a legend and a province filter.</p>
+               <ul class="tags"><li>QGIS</li><li>GeoJSON</li><li>Leaflet</li><li>JavaScript</li></ul>
+               <div class="actions">
+                  <a class="link" href="https://sohailzulfiqarrao.github.io/webgis-ms25igis-578135/lab-2-district-explorer/" target="_blank" rel="noopener">Open map <svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
+                  <a class="link" href="https://github.com/sohailzulfiqarrao/webgis-ms25igis-578135/blob/main/lab-2-district-explorer/report.md" target="_blank" rel="noopener">Report</a>
+               </div>
+            </div>
+         </article>
+
+         <article class="card reveal" data-spot>
+            <a class="media" href="https://sohailzulfiqarrao.github.io/webgis-ms25igis-578135/lab-3-district-dashboard/" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true">
+               <img src="assets/img/lab-3.jpg" width="1100" height="700" loading="lazy" alt="">
+            </a>
+            <div class="body">
+               <p class="meta"><span class="badge">Lab 03</span><span>3 hours</span></p>
+               <h3>District Dashboard</h3>
+               <p>Three basemaps and a layer control, density shading with hover highlighting, proportional circles in their own pane, and map events.</p>
+               <ul class="tags"><li>QGIS</li><li>Leaflet</li><li>Layer control</li><li>Events</li></ul>
+               <div class="actions">
+                  <a class="link" href="https://sohailzulfiqarrao.github.io/webgis-ms25igis-578135/lab-3-district-dashboard/" target="_blank" rel="noopener">Open map <svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
+                  <a class="link" href="https://github.com/sohailzulfiqarrao/webgis-ms25igis-578135/blob/main/lab-3-district-dashboard/report.md" target="_blank" rel="noopener">Report</a>
+               </div>
+            </div>
+         </article>
+
+         <article class="card reveal" data-spot>
+            <a class="media" href="https://sohailzulfiqarrao.github.io/webgis-ms25igis-578135/lab-4-GeoDjango_Getting_Started/web/" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true">
+               <img src="assets/img/lab-4.jpg" width="1100" height="700" loading="lazy" alt="">
+            </a>
+            <div class="body">
+               <p class="meta"><span class="badge">Lab 04</span><span>3 hours</span><span class="pill">static snapshot</span></p>
+               <h3>GeoDjango with PostGIS</h3>
+               <p>The 160 districts move into PostGIS. Django serves them as GeoJSON, the admin panel edits them, and PostGIS answers which district contains a clicked point.</p>
+               <ul class="tags"><li>Django</li><li>PostGIS</li><li>GeoDjango</li><li>Admin</li></ul>
+               <div class="actions">
+                  <a class="link" href="https://sohailzulfiqarrao.github.io/webgis-ms25igis-578135/lab-4-GeoDjango_Getting_Started/web/" target="_blank" rel="noopener">Open snapshot <svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
+                  <a class="link" href="https://github.com/sohailzulfiqarrao/webgis-ms25igis-578135/blob/main/lab-4-GeoDjango_Getting_Started/report.md" target="_blank" rel="noopener">Report</a>
+               </div>
+            </div>
+         </article>
+      </div>
+
+      <p class="more reveal"><a class="btn btn-ghost" href="https://sohailzulfiqarrao.github.io/webgis-ms25igis-578135/" target="_blank" rel="noopener">Open the Web GIS hub <svg aria-hidden="true"><use href="#i-arrow"/></svg></a></p>
+   </div>
+</section>
+
+<!-- ============ MACHINE LEARNING ============ -->
+<section class="section" id="ml" aria-labelledby="ml-title">
+   <div class="wrap">
+      <header class="section-head reveal">
+         <p class="kicker">// course 02 · Applied Machine Learning · Dr Hammad Gilani</p>
+         <h2 id="ml-title">Machine learning assignments</h2>
+         <p class="lead">Notebooks with the method, the diagnostics and an honest read of the results.</p>
+      </header>
+
+      <div class="grid grid-2">
+         <article class="card card-ml reveal" data-spot>
+            <a class="media" href="https://sohailzulfiqarrao.github.io/aml-ms25igis-578135/Assignments/Assignment%201/" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true">
+               <img src="assets/img/ml-1.jpg" width="1100" height="700" loading="lazy" alt="">
+            </a>
+            <div class="body">
+               <p class="meta"><span class="badge badge-ml">Assignment 01</span><span>regression</span></p>
+               <h3>Predicting evapotranspiration over Islamabad</h3>
+               <p>Multiple linear regression on 87 observations of vegetation indices and climate variables, with collinearity pruned by variance inflation factors.</p>
+               <dl class="metrics">
+                  <div><dt>0.785</dt><dd>test R²</dd></div>
+                  <div><dt>1.78 mm</dt><dd>test RMSE</dd></div>
+                  <div><dt>NDVI</dt><dd>strongest predictor</dd></div>
+               </dl>
+               <ul class="tags"><li>Python</li><li>scikit-learn</li><li>statsmodels</li><li>VIF</li></ul>
+               <div class="actions">
+                  <a class="link" href="https://sohailzulfiqarrao.github.io/aml-ms25igis-578135/Assignments/Assignment%201/" target="_blank" rel="noopener">Results <svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
+                  <a class="link" href="https://github.com/sohailzulfiqarrao/aml-ms25igis-578135/blob/main/Assignments/Assignment%201/report.md" target="_blank" rel="noopener">Report</a>
+                  <a class="link" href="https://github.com/sohailzulfiqarrao/aml-ms25igis-578135/blob/main/Assignments/Assignment%201/Islamabd_MLR_Assignment.ipynb" target="_blank" rel="noopener">Notebook</a>
+               </div>
+            </div>
+         </article>
+
+         <article class="card card-ml reveal" data-spot>
+            <a class="media" href="https://sohailzulfiqarrao.github.io/aml-ms25igis-578135/Assignments/Assignment%202/" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true">
+               <img src="assets/img/ml-2.jpg" width="1100" height="700" loading="lazy" alt="">
+            </a>
+            <div class="body">
+               <p class="meta"><span class="badge badge-ml">Assignment 02</span><span>clustering</span></p>
+               <h3>Clustering e-commerce product offers</h3>
+               <p>K-means, Ward, DBSCAN and Gaussian mixtures on 35,311 PriceRunner titles, embedded with TF-IDF and LSA, scored on offers never used for fitting.</p>
+               <dl class="metrics">
+                  <div><dt>0.62</dt><dd>ARI, K-means (k = 10)</dd></div>
+                  <div><dt>25,311</dt><dd>unseen offers scored</dd></div>
+                  <div><dt>0.82</dt><dd>stability under resampling</dd></div>
+               </dl>
+               <ul class="tags"><li>Python</li><li>scikit-learn</li><li>t-SNE</li><li>TF-IDF</li></ul>
+               <div class="actions">
+                  <a class="link" href="https://sohailzulfiqarrao.github.io/aml-ms25igis-578135/Assignments/Assignment%202/" target="_blank" rel="noopener">Results <svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
+                  <a class="link" href="https://sohailzulfiqarrao.github.io/aml-ms25igis-578135/Assignments/Assignment%202/Clustering_Report.pdf" target="_blank" rel="noopener">Report (PDF)</a>
+                  <a class="link" href="https://github.com/sohailzulfiqarrao/aml-ms25igis-578135/blob/main/Assignments/Assignment%202/Clustering_Assignment.ipynb" target="_blank" rel="noopener">Notebook</a>
+               </div>
+            </div>
+         </article>
+      </div>
+
+      <p class="more reveal"><a class="btn btn-ghost" href="https://sohailzulfiqarrao.github.io/aml-ms25igis-578135/" target="_blank" rel="noopener">Open the machine learning hub <svg aria-hidden="true"><use href="#i-arrow"/></svg></a></p>
+   </div>
+</section>
+
+<!-- ============ STACK ============ -->
+<section class="section" id="stack" aria-labelledby="stack-title">
+   <div class="wrap">
+      <header class="section-head reveal">
+         <p class="kicker">// tools in use</p>
+         <h2 id="stack-title">The stack</h2>
+         <p class="lead">What the labs and assignments above were actually built with.</p>
+      </header>
+
+      <div class="stack-grid">
+         <div class="stack-col reveal">
+            <h3><i class="swatch c-cyan"></i> Geospatial</h3>
+            <ul class="chips"><li>QGIS</li><li>GDAL / ogr2ogr</li><li>GeoJSON</li><li>PostgreSQL + PostGIS</li><li>OpenStreetMap</li><li>Esri basemaps</li></ul>
+         </div>
+         <div class="stack-col reveal">
+            <h3><i class="swatch c-violet"></i> Web and backend</h3>
+            <ul class="chips"><li>Leaflet</li><li>JavaScript</li><li>HTML &amp; CSS</li><li>Django + GeoDjango</li><li>Git &amp; GitHub Pages</li><li>VS Code</li></ul>
+         </div>
+         <div class="stack-col reveal">
+            <h3><i class="swatch c-green"></i> Machine learning</h3>
+            <ul class="chips"><li>Python</li><li>Jupyter</li><li>pandas &amp; NumPy</li><li>scikit-learn</li><li>statsmodels</li><li>Matplotlib &amp; seaborn</li></ul>
+         </div>
+      </div>
+   </div>
+</section>
+
+<!-- ============ ABOUT ============ -->
+<section class="section" id="about" aria-labelledby="about-title">
+   <div class="wrap">
+      <div class="about reveal">
+         <div class="about-copy">
+            <p class="kicker">// about</p>
+            <h2 id="about-title">Sohail Zulfiqar</h2>
+            <p class="lead">
+               MS Remote Sensing and GIS student (2025 cohort) at the Institute of Geographical Information Systems,
+               NUST, Islamabad. This page gathers my coursework in Web GIS and Applied Machine Learning: small, finished
+               projects, each with a live page and a written report.
+            </p>
+            <div class="cta">
+               <a class="btn btn-primary" href="https://github.com/sohailzulfiqarrao" target="_blank" rel="noopener">
+                  <svg aria-hidden="true"><use href="#i-github"/></svg> github.com/sohailzulfiqarrao
+               </a>
+               <a class="btn btn-ghost" href="https://shahidnawazkhan.github.io/Fall2026WebGIS/" target="_blank" rel="noopener">
+                  Web GIS course page <svg aria-hidden="true"><use href="#i-arrow"/></svg>
+               </a>
+            </div>
+         </div>
+         <dl class="about-facts">
+            <div><dt>Program</dt><dd>MS Remote Sensing &amp; GIS, 2025</dd></div>
+            <div><dt>Institute</dt><dd>IGIS, NUST Islamabad</dd></div>
+            <div><dt>Web GIS</dt><dd>Dr. Shahid Nawaz Khan</dd></div>
+            <div><dt>Applied ML</dt><dd>Dr Hammad Gilani</dd></div>
+         </dl>
+         <img class="about-logo" src="assets/img/nust-logo.jpg" width="160" height="80" alt="NUST: Defining futures" loading="lazy">
+      </div>
+   </div>
+</section>
+
+</main>
+
+<footer class="site-footer">
+   <div class="wrap foot">
+      <p>Sohail Zulfiqar · MS GIS &amp; RS 2025 · Institute of Geographical Information Systems, NUST Islamabad</p>
+      <p class="foot-links">
+         <a href="https://sohailzulfiqarrao.github.io/webgis-ms25igis-578135/" target="_blank" rel="noopener">Web GIS</a>
+         <a href="https://sohailzulfiqarrao.github.io/aml-ms25igis-578135/" target="_blank" rel="noopener">Machine learning</a>
+         <a href="https://github.com/sohailzulfiqarrao" target="_blank" rel="noopener">GitHub</a>
+      </p>
+      <p class="fine">Built by hand with HTML, CSS and a little JavaScript. No frameworks, no trackers. October 2026.</p>
+   </div>
+</footer>
+
+<!-- quick jump (Ctrl K) -->
+<dialog id="palette" class="palette" aria-label="Quick jump">
+   <form method="dialog" class="palette-form">
+      <div class="palette-input">
+         <svg aria-hidden="true"><use href="#i-search"/></svg>
+         <input id="palette-q" type="text" placeholder="Jump to a section, lab or assignment" autocomplete="off" spellcheck="false" aria-controls="palette-list" aria-label="Search">
+         <button class="kbd" value="close" aria-label="Close">Esc</button>
+      </div>
+      <ul id="palette-list" class="palette-list" role="listbox"></ul>
+      <p class="palette-hint"><span class="kbd">↑</span><span class="kbd">↓</span> move <span class="kbd">Enter</span> open</p>
+   </form>
+</dialog>
+
+
+</body>
+</html>
