@@ -154,7 +154,7 @@
       { k: 'section', t: 'Web GIS labs', u: '#webgis', w: 'leaflet django postgis maps' },
       { k: 'section', t: 'Machine learning assignments', u: '#ml', w: 'regression clustering notebooks' },
       { k: 'section', t: 'The stack', u: '#stack', w: 'tools python qgis' },
-      { k: 'section', t: 'About', u: '#about', w: 'sohail zulfiqar nust igis' },
+      { k: 'section', t: 'About', u: '#about', w: 'sohail zulfiqar nust igis experience fast scholarship moit education' },
       { k: 'site', t: 'Web GIS hub', u: WG, w: 'labs all' },
       { k: 'site', t: 'Machine learning hub', u: ML, w: 'assignments all' },
       { k: 'site', t: 'GitHub profile', u: 'https://github.com/sohailzulfiqarrao', w: 'repositories code' },
